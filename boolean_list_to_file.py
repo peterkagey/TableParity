@@ -1,7 +1,7 @@
 class BitmapWriter:
 
     def __init__(self, list_of_boolean_lists):
-        self.list_of_boolean_lists = list_of_boolean_lists[::-1]
+        self.list_of_boolean_lists = list_of_boolean_lists
     
     # This expects a list of exactly eight bools, but it doesn't check.
     def to_byte(self, boolean_list):
