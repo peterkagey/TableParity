@@ -20,7 +20,7 @@ class A279212Builder:
         self.antidiagonal_parity = False
 
     def initialize_grid(self):
-        for i in range(4*self.n):
+        for _ in range(4*self.n):
             self.grid.append([False] * self.n)
         self.grid[0][0] = True
         self.grid[1][0] = True
