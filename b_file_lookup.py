@@ -13,5 +13,3 @@ class BFileLookup:
         b_file_text = b_file_bytes.decode("utf8")
         fp.close()
         return b_file_text
-
-print(BFileLookup("A279212").b_file_txt())
