@@ -16,5 +16,3 @@ class BFileParser:
 
     def is_data_line(self, b_file_line):
         return (len(b_file_line) > 0) and (b_file_line[0] != '#')
-
-print(BFileParser(BFileLookup("A279212").b_file_txt()).parsed_data) 
