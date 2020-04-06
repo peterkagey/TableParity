@@ -1,1 +1,3 @@
 __pycache__
+*.bmp
+.DS_Store
