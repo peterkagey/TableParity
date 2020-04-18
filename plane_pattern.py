@@ -1,7 +1,7 @@
 from plane_builder import SpiralBuilder, TableBuilder
 
-class ArrayPattern:
-  @staticmethod
+class PlanePattern:
+  # pylint: disable=no-self-argument
   def is_odd(n):
     return n % 2 == 1
 
@@ -15,7 +15,7 @@ class ArrayPattern:
   def from_data(self, sequence_data):
     raise NotImplementedError
 
-class SpiralPattern(ArrayPattern):
+class SpiralPattern(PlanePattern):
   def file_descriptor(self):
     if self.descriptor == "":
       return "_spiral"
@@ -25,7 +25,7 @@ class SpiralPattern(ArrayPattern):
   def from_data(self, sequence_data):
     return SpiralBuilder(sequence_data, self.condition).grid
 
-class TablePattern(ArrayPattern):
+class TablePattern(PlanePattern):
   def file_descriptor(self):
     if self.descriptor == "":
       return "_tabl"

@@ -17,8 +17,12 @@ class OeisToBmp:
         BitmapWriter(boolean_table).write_bitmap(file_name)
         os.system("open " + file_name)
 
-list_of_sequences = ["A274630"] # antidiagonals
-# list_of_sequences = ["A280027"] # square spiral
-for sequence_name in list_of_sequences:
+table_sequences = ["A273620"] # read by antidiagonals
+for sequence_name in table_sequences:
     print(sequence_name)
     OeisToBmp(sequence_name).make_bmp()
+
+spiral_sequences = ["A280027"] # square spiral
+for sequence_name in spiral_sequences:
+    print(sequence_name)
+    OeisToBmp(sequence_name, SpiralPattern()).make_bmp()
