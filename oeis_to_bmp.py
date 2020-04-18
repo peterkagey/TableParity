@@ -1,7 +1,7 @@
 from b_file_parser import BFileParser
 from b_file_lookup import BFileLookup
 from boolean_list_to_file import BitmapWriter
-from array_pattern import SpiralPattern, TablePattern
+from plane_pattern import SpiralPattern, TablePattern
 import os
 
 class OeisToBmp:
