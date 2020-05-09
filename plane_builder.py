@@ -59,7 +59,6 @@ class SpiralBuilder(PlaneBuilder):
         counter = 1
         (i,j) = self.center
         for (_,a_n) in self.sequence:
-            y = self.spiral_calculator.a174344(counter)
-            x = self.spiral_calculator.a274923(counter)
-            self.grid[i-x][j+y] = self.int_to_bool_function(a_n)
+            (x,y) = self.spiral_calculator.coordinate(counter)
+            self.grid[i-y][j+x] = self.int_to_bool_function(a_n)
             counter += 1

@@ -39,3 +39,8 @@ class SpiralCalculator:
             return self.a001057(k-2) - j
         else:
             return self.a001057(k-2) + j
+
+    def coordinate(self,n):
+        return (self.a174344(n), self.a274923(n))
+
+
