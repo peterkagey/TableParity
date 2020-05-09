@@ -16,7 +16,7 @@ import os
 #                        |
 #   36--35--34--33--32--31
 
-class A334742:
+class SpiralSequence:
     def __init__(self, n):
         self.sequence_length = n
         self.table_size = self.size_of_table()
@@ -47,17 +47,10 @@ class A334742:
         self.grid[i][j] = 1
         for counter in range(2,self.sequence_length + 1):
             (x,y) = self.spiral_calculator.coordinate(counter)
-            self.grid[i - y][j + x] = self.sum_all(x, y)
+            self.grid[i - y][j + x] = self.cell_value(x, y)
 
-    def sum_north(self, x, y):
-        if self.center[0] - y - 1 < 0:
-            return 0
-        sum = 0
-        c = 1
-        current_cell = self.grid[self.center[0] - y - c][self.center[1] + x]
-        c += 1
-        sum += current_cell
-        return sum
+    def cell_value(self, x, y):
+        raise NotImplementedError
 
     def in_bounds(self, x, y, x_d, y_d):
         x_value = self.center[1] + x + x_d
@@ -71,26 +64,56 @@ class A334742:
             return self.grid[self.center[0] - y - y_d][self.center[1] + x + x_d]
         return 0
 
-    def sum_all(self, x, y):
-        sums = 0
-        for x_d, y_d in [(0,1),(1,0),(-1,0),(0,-1)]:
-            sums += self.sum_direction(x,y,x_d,y_d)
-        return sums
-
     def unravel_grid(self):
         (i,j) = self.center
         sequence = []
-        self.grid[i][j] = 1
         for counter in range(1,self.sequence_length + 1):
             (x,y) = self.spiral_calculator.coordinate(counter)
             sequence.append((counter, self.grid[i - y][j + x]))
         return sequence
 
-# print(list(map(lambda x: x[1], A334742(400).grid)))
+# print(list(map(lambda x: x[1], A334742(100).sequence)))
 # print(A334742(400).grid)
 
-file_name = "rook_spiral_test.bmp"
-boolean_table = SpiralPattern().from_data(A334742(400).sequence)
+class A334742(SpiralSequence):
+    def cell_value(self, x, y):
+        sums = 0
+        for x_d, y_d in [(0,1),(1,0),(-1,0),(0,-1)]:
+            sums += self.sum_direction(x,y,x_d,y_d)
+        return sums
+
+class A334745(SpiralSequence):
+    def cell_value(self, x, y):
+        sums = 0
+        for x_d, y_d in [(1,1),(1,-1),(-1,1),(-1,-1)]:
+            sums += self.sum_direction(x,y,x_d,y_d)
+        return sums
+
+class A334746(SpiralSequence):
+    def cell_value(self, x, y):
+        sums = 0
+        for x_d, y_d in [(0,1),(1,0),(-1,0),(0,-1),(1,1),(1,-1),(-1,1),(-1,-1)]:
+            sums += self.sum_direction(x,y,x_d,y_d)
+        return sums
+
+class A334741(SpiralSequence):
+    def cell_value(self, x, y):
+        sums = 0
+        for x_d, y_d in [(0,1),(1,0),(-1,0),(0,-1)]:
+            sums += self.sum_line(x,y,x_d,y_d)
+        return sums
+
+    def sum_line(self, x, y, x_d, y_d):
+        sum = 0
+        c = 1
+        while self.in_bounds(x, y, c*x_d, c*y_d):
+            sum += self.grid[self.center[0] - y - c*y_d][self.center[1] + x + c*x_d]
+            c += 1
+        return sum
+
+
+
+file_name = "A334741_test.bmp"
+boolean_table = SpiralPattern().from_data(A334741(4**6).sequence)
 BitmapWriter(boolean_table).write_bitmap(file_name)
 os.system("open " + file_name)
-
