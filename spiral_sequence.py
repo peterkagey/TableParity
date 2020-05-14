@@ -72,9 +72,6 @@ class SpiralSequence:
             sequence.append((counter, self.grid[i - y][j + x]))
         return sequence
 
-# print(list(map(lambda x: x[1], A334742(100).sequence)))
-# print(A334742(400).grid)
-
 class A334742(SpiralSequence):
     def cell_value(self, x, y):
         sums = 0
@@ -104,16 +101,44 @@ class A334741(SpiralSequence):
         return sums
 
     def sum_line(self, x, y, x_d, y_d):
-        sum = 0
+        sums = 0
         c = 1
         while self.in_bounds(x, y, c*x_d, c*y_d):
-            sum += self.grid[self.center[0] - y - c*y_d][self.center[1] + x + c*x_d]
+            sums += self.grid[self.center[0] - y - c*y_d][self.center[1] + x + c*x_d]
             c += 1
-        return sum
+        return sums
+
+class PascalsSpiral(SpiralSequence):
+    def cell_value(self, x, y):
+        sums = 0
+        for a, b in self.coordinates_leftbehind(x, y):
+            sums += self.grid[self.center[0] - b][self.center[1] + a]
+        return sums
+
+    def coordinates_leftbehind(self, x, y):
+        if y == 1 - x and x > 0: # bottom right corner
+            return [(x-1, y)]
+        if y == x and x > 0:     # top right corner
+            return [(x, y - 1)]
+        if y == -x and x < 0:    # top left corner
+            return [(x + 1, y)]
+        if y == x and x < 0:     # bottom left corner
+            return [(x, y + 1)]
+        if x > y and x > 1 - y:  # right section
+            return [(x, y - 1), (x - 1, y)]
+        if y > abs(x):           # top section
+            return [(x + 1, y), (x, y - 1)]
+        if x < -abs(y):          # left section
+            return [(x, y + 1), (x + 1, y)]
+        if y < x and y < 1 - x:  # underbelly
+            return [(x - 1, y), (x, y + 1)]
+        raise IndexError
 
 
+# print(list(map(lambda x: x[1], A334742(100).sequence)))
+# print(PascalsSpiral(25).sequence)
 
-file_name = "A334741_test.bmp"
-boolean_table = SpiralPattern().from_data(A334741(4**6).sequence)
+file_name = "PascalsSpiral_test.bmp"
+boolean_table = SpiralPattern().from_data(PascalsSpiral(10000).sequence)
 BitmapWriter(boolean_table).write_bitmap(file_name)
 os.system("open " + file_name)
