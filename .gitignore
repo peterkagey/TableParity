@@ -1,5 +1,3 @@
 __pycache__
-*.bmp
-*.png
 .DS_Store
-images/*
+images/A*/*
